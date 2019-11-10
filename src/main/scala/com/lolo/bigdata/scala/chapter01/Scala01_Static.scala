@@ -1,7 +1,7 @@
 package com.lolo.bigdata.scala.chapter01
 
-object Hello {
+object Scala01_Static {
     def main(args: Array[String]): Unit = {
-        println("HelloWorld")
+        println("Hello Static")
     }
 }
