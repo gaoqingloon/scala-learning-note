@@ -1,4 +1,4 @@
-package com.lolo.bigdata.test;
+package com.lolo.bigdata.javatest;
 
 import java.lang.reflect.Field;
 

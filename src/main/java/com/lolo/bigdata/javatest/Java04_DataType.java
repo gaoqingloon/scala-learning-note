@@ -1,4 +1,4 @@
-package com.lolo.bigdata.test;
+package com.lolo.bigdata.javatest;
 
 /**
  * 方法重载的顺序
