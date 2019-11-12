@@ -1,4 +1,4 @@
-package com.lolo.bigdata.scala.charpter03
+package com.lolo.bigdata.scala.chapter03
 
 import scala.io.StdIn
 

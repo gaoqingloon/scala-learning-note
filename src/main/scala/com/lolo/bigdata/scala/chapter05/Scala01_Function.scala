@@ -1,4 +1,4 @@
-package com.lolo.bigdata.scala.charpter05
+package com.lolo.bigdata.scala.chapter05
 
 /**
   * 函数式编程
@@ -90,11 +90,11 @@ object Scala01_Function {
 
 
         // 将函数作为参数传递给另外一个函数，需要采用特殊的声明方式
-        def ff4(f: () => Int): Int = {
-            f() + 10
+        def ff4(f: (Int) => Int): Int = {
+            f(1) + 10
         }
-        def ff5(): Int = {
-            5
+        def ff5(i: Int): Int = {
+            i + 2
         }
         println(ff4(ff5))
 
@@ -104,5 +104,32 @@ object Scala01_Function {
         }
         ff6(() => println("Hello"))
 
+
+        /////////简化的过程//////////
+        def ff7(f: (Int, Int) => Int): Int = {
+            f(10, 2)
+        }
+
+        println("-------------")
+        def ff8(i: Int, j: Int): Int = {
+            i + j
+        }
+        println(ff7(ff8))
+        println(ff7((x: Int, y: Int) => {x + y}))
+        println(ff7((x, y) => {x + y}))
+        println(ff7((x, y) => x + y))
+        println(ff7(_ + _))
+
+        /////////回退过程//////////
+        def fff1 = "Hello"
+        def fff2(): String = {
+            "Hello"
+        }
+        println(fff2())
+        println(fff2)
+        println(fff1)
+
+        val func = (x:Int, y: Int) => {}
+        println(func) // <fucntion2>
     }
 }

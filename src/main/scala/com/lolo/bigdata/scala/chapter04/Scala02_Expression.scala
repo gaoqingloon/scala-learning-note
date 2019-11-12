@@ -1,4 +1,4 @@
-package com.lolo.bigdata.scala.charpter04
+package com.lolo.bigdata.scala.chapter04
 
 /**
   * 表达式测试
