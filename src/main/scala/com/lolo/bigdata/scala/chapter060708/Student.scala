@@ -21,6 +21,7 @@ class Student {
   */
 object Student {
 
+    // scala自动识别apply方法，用于创建伴生类对象
     def apply: Student = new Student()
     def apply(s: String): Student = new Student()
 

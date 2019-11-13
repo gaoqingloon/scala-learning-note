@@ -8,5 +8,14 @@
     <artifactId>scala</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!-- 代码中查看scala类库（scala-library.jar） -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.8</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

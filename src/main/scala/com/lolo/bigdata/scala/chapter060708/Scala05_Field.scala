@@ -1,5 +1,7 @@
 package com.lolo.bigdata.scala.chapter060708
 
+import scala.beans.BeanProperty
+
 /**
   * 类的属性
   *
@@ -22,6 +24,8 @@ object Scala05_Field {
         user.userName = "gordon"
         // getter
         println(user.userName)
+        // user.setAddress("shanghai")
+        // user.getAddress()
 
         user.setAge(18)
         println(user.getAge)
@@ -44,6 +48,9 @@ class User05 {
     def getAge: Int = {
         age
     }
+
+    // 为了和java bean规范统一，scala提供了注解，生成java中对应的set，get方法
+    @BeanProperty var address: String = _
 }
 
 /**
