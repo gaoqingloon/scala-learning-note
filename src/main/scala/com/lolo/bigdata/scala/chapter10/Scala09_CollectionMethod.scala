@@ -1,5 +1,7 @@
 package com.lolo.bigdata.scala.chapter10
 
+import scala.collection.mutable
+
 /**
   * 集合中常用的方法
   *
@@ -14,6 +16,7 @@ package com.lolo.bigdata.scala.chapter10
   * list.sortBy()
   * list.sortWith()
   * list.map()
+  * list.mapValues()
   * list.take()
   * list.flatMap()
   * list.filter()
@@ -27,7 +30,7 @@ package com.lolo.bigdata.scala.chapter10
   */
 object Scala09_CollectionMethod extends App {
 
-    val list: List[Int] = List(1, 3, 2, 4, 3, 2, 3)
+    var list: List[Int] = List(1, 3, 2, 4, 3, 2, 3)
 
     // 1. 基本操作
     println("sum: " + list.sum)
@@ -159,5 +162,96 @@ object Scala09_CollectionMethod extends App {
     println(list.union(List(1, 2, 3)).mkString(", "))
     println(list.intersect(List(1, 2, 3)).mkString(", "))
     println(list.diff(List(1, 2, 3)).mkString(", "))
+
+
+    // 11. 数据减少，不是结果变少 reduce，2个变成1个
+    // 将集合的数据经过逻辑处理后只保留一个结果，具体的结果需要参考逻辑实现
+    // List(1, 3, 2, 4, 3, 2, 3)
+    // op: (A1, A1) => A1
+    //list.reduce((left, right) => {left + right})
+    val resultSum: Int = list.reduce(_ + _)  //list.sum
+    val resultDiff: Int = list.reduce(_ - _)
+    println(resultSum)
+    println(resultDiff)
+
+
+    // 12. reduceLeft <==> reduce
+    // reduceRight ==> reversed.reduceLeft[B]((x, y) => op(y, x))
+    //1, 2, 3, 4
+    //reversed: 4,3,2,1
+    println(list.reduceLeft(_ - _))
+    println(list.reduceRight(_ - _))
+
+
+    // 13. fold 折叠 == foldLeft(z)(op)
+    // 也可以的集合数据进行简化，获取最终的一条结果
+    // fold方法可以传递2个部分的参数，
+    // 第一个部分参数表示集合之外的数据，
+    // 第二个部分参数表示数据进行的逻辑
+
+    list = List(1, 2, 3, 4)
+    val sum: Int = list.fold(100)(_ - _)
+    println(sum)
+
+    // foldLeft: (((100-1)-2)-3)-4
+    //reverse.foldLeft(z)((right, left) => op(left, right))
+    // reverse: 4,3,2,1
+    // foldLeft: (((100-4)-3)-2)-1
+    // foldRight: 1-(2-(3-(4-100)))
+    val resLeftSum: Int = list.foldLeft(100)(_ - _)
+    println(resLeftSum)
+
+    val resRightSum: Int = list.foldRight(100)(_ - _)
+    println(resRightSum)
+
+
+    /** 将两个Map进行合并，相同的key做累加，不同的key直接增加 */
+    // a -> 4, b -> 2, c -> 5, d -> 1
+    var map1 = mutable.Map("a" -> 1, "b" -> 2, "c" -> 3)
+    var map2 = mutable.Map("a" -> 3, "c" -> 2, "d" -> 1)
+
+    // map.get(k) == null ; v
+    // map.get(k); map.get(k) + v
+    // 集合中的每一个和集合之外的数据做累加
+    val stringToInt: mutable.Map[String, Int] = map1.foldLeft(map2)((map, t) => {
+        // "a" -> 1
+        // map集合设置的方式 map(key)=value
+        map(t._1) = map.getOrElse(t._1, 0) + t._2
+        map
+    })
+    println(stringToInt)//Map(b -> 2, d -> 1, a -> 4, c -> 5)
+
+    // map1和map2互换结果一样
+    map1 = mutable.Map("a" -> 1, "b" -> 2, "c" -> 3)
+    map2 = mutable.Map("a" -> 3, "c" -> 2, "d" -> 1)
+    val stringToInt1: mutable.Map[String, Int] = map2.foldLeft(map1)((map, t) => {
+        // "a" -> 3
+        // map集合设置的方式 map(key)=value
+        map(t._1) = map.getOrElse(t._1, 0) + t._2
+        map
+    })
+    println(stringToInt1)//Map(b -> 2, d -> 1, a -> 4, c -> 5)
+
+
+    /** flatMap操作 */
+    val list1 = List(1, List(2, 3), List(4, 5), 6, List(7, 8))
+    // 函数的入参和【输出】
+    /*val list2: List[Any] = list1.flatMap(any => {
+        if (any.isInstanceOf[List[Int]]) {
+            any.asInstanceOf[List[Int]]
+        } else {
+            List(any)
+        }
+    })*/
+    // 类型匹配match case，不同的类型不同的处理
+    val list2: List[Any] = list1.flatMap(any => {
+        any match {
+            case isList: List[Int] =>
+                isList
+            case _ =>
+                List(any)
+        }
+    })
+    println(list2) //List(1, 2, 3, 4, 5, 6, 7, 8)
 
 }
